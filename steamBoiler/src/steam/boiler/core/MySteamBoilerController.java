@@ -87,6 +87,7 @@ public class MySteamBoilerController implements SteamBoilerController {
     //
 
     // FIXME: this is where the main implementation stems from
+    
 
     // NOTE: this is an example message send to illustrate the syntax
     outgoing.send(new Message(MessageKind.MODE_m, Mailbox.Mode.INITIALISATION));
