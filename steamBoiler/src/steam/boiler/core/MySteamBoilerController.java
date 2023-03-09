@@ -87,7 +87,45 @@ public class MySteamBoilerController implements SteamBoilerController {
     //
 
     // FIXME: this is where the main implementation stems from
+    switch (this.mode) {
     
+    case WAITING:
+      // Wait for initialisation message
+      if (extractOnlyMatch(MessageKind.MODE_m, incoming) != null) {
+        this.mode = State.READY;
+      }
+      break;
+    case READY:
+      // Wait for start message
+      if (extractOnlyMatch(MessageKind.MODE_m, incoming) != null) {
+        this.mode = State.NORMAL;
+      }
+      break;
+    case NORMAL:
+      // Wait for stop message
+      if (extractOnlyMatch(MessageKind.MODE_m, incoming) != null) {
+        this.mode = State.READY;
+      }
+      break;
+    case DEGRADED:
+      // Wait for stop message
+      if (extractOnlyMatch(MessageKind.MODE_m, incoming) != null) {
+        this.mode = State.READY;
+      }
+      break;
+    case RESCUE:
+      // Wait for stop message
+      if (extractOnlyMatch(MessageKind.MODE_m, incoming) != null) {
+        this.mode = State.READY;
+      }
+      break;
+    case EMERGENCY_STOP:
+      // Wait for stop message
+      if (extractOnlyMatch(MessageKind.MODE_m, incoming) != null) {
+        this.mode = State.READY;
+      }
+      break;
+    }
 
     // NOTE: this is an example message send to illustrate the syntax
     outgoing.send(new Message(MessageKind.MODE_m, Mailbox.Mode.INITIALISATION));

@@ -55,3 +55,60 @@ def main():
 ## Call the main function
 if __name__ == '__main__':
     main()
+
+# Import numpy library
+import numpy as np
+
+# Define a function to calculate euclidean distance
+def euclidean_distance(x1, x2):
+    return np.sqrt(np.sum((x1 - x2)**2))
+
+# Define a function to get the k nearest neighbors
+def get_knn(data, query, k):
+    # Initialize an empty list to store distances and labels
+    distances = []
+    
+    # Loop through each data point
+    for i in range(len(data)):
+        # Get the features and label of the current point
+        features = data[i][:-1]
+        label = data[i][-1]
+        
+        # Calculate the distance between the query and the current point
+        distance = euclidean_distance(features, query)
+        
+        # Append the distance and label to the list
+        distances.append((distance, label))
+    
+    # Sort the list by distance in ascending order
+    distances.sort()
+    
+    # Get the k nearest neighbors
+    neighbors = distances[:k]
+    
+    return neighbors
+
+# Define a function to predict the label of a query based on majority voting
+def predict_label(neighbors):
+    # Initialize a dictionary to store votes for each label
+    votes = {}
+    
+    # Loop through each neighbor
+    for neighbor in neighbors:
+        # Get the label of the neighbor
+        label = neighbor[1]
+        
+        # Increment the vote count for that label or set it to 1 if not present
+        if label in votes:
+            votes[label] += 1
+        else:
+            votes[label] = 1
+    
+    # Get the label with maximum votes 
+    max_votes = max(votes.values())
+    
+    # Loop through each vote and check if it is equal to max_votes 
+    for vote in votes.items():
+        if vote[1] == max_votes:
+            # Return that label as prediction 
+            return vote[0]
